@@ -1,65 +1,152 @@
+"use client";
+
+import { useState, useEffect, useRef } from "react";
+import ChatBox from "./components/ChatBox";
+import RecipeView from "./components/RecipeView";
+import { MotionContainer, MotionButton } from "./components/MotionPresets";
+import { Recipe } from "@/lib/recipeSchema";
+import { Languages } from "lucide-react";
 import Image from "next/image";
 
 export default function Home() {
+  const [recipe, setRecipe] = useState<Recipe | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [isMock, setIsMock] = useState(false);
+  const [language, setLanguage] = useState<"en" | "fa">("en");
+
+  // Apply Persian font to body when language changes
+  useEffect(() => {
+    if (language === "fa") {
+      document.body.classList.add("vazirmatn-font");
+    } else {
+      document.body.classList.remove("vazirmatn-font");
+    }
+  }, [language]);
+
+  const handleRecipeRequest = async (prompt: string) => {
+    setLoading(true);
+    setError(null);
+    setRecipe(null);
+    setIsMock(false);
+
+    try {
+      const response = await fetch("/api/recipe", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ prompt, language }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to fetch recipe");
+      }
+
+      const data = await response.json();
+      setRecipe(data.recipe);
+      setIsMock(data.mock || false);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An error occurred");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const toggleLanguage = () => {
+    setLanguage(language === "en" ? "fa" : "en");
+  };
+
+  const text = {
+    en: {
+      title: "🍳 Recipe Assistant",
+      subtitle: "Get personalized recipes instantly",
+      generating: "Creating your perfect recipe...",
+      error: "Error:",
+    },
+    fa: {
+      title: "دستیار دستور پخت 🍳",
+      subtitle: "دستور پخت های شخصی سازی شده",
+      generating: "در حال ایجاد دستور پخت عالی شما...",
+      error: "خطا:",
+    },
+  };
+
+  const recipeRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    // When a recipe becomes available and loading is finished, scroll to the recipe
+    if (recipe && !loading) {
+      // Use a slight delay to ensure layout completed (helps with large content render)
+      setTimeout(() => {
+        if (recipeRef.current) {
+          recipeRef.current.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+        }
+      }, 80);
+    }
+  }, [recipe, loading]);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <MotionContainer className="flex flex-col justify-center min-h-screen bg-linear-to-br from-blue-50 via-white to-purple-50 dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-950">
+      {/* Language Toggle Button */}
+      <div className="fixed top-6 right-6 z-50">
+        <MotionButton
+          onClick={toggleLanguage}
+          className="flex items-center gap-2 p-3 bg-white dark:bg-zinc-800 rounded-full shadow-lg hover:shadow-xl transition-shadow border border-gray-200 dark:border-zinc-700"
+        >
+          <Languages />
+        </MotionButton>
+      </div>
+
+      <div className="container mx-auto py-12 px-4">
+        {/* Header */}
+        <div className="text-center mb-12 flex flex-col items-center">
+          <Image src={"/cook2.png"} alt="Cooking" width={400} height={400} />
+          <h1 className="text-5xl font-bold text-gray-900 dark:text-white mb-4">
+            {text[language].title}
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="text-lg text-gray-600 dark:text-gray-400">
+            {text[language].subtitle}
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+
+        {/* Chat Box */}
+        <ChatBox
+          onRecipeRequest={handleRecipeRequest}
+          loading={loading}
+          language={language}
+        />
+
+        {/* Loading State */}
+        {loading && (
+          <div className="text-center mt-12">
+            <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-blue-600 border-t-transparent"></div>
+            <p className="mt-4 text-gray-600 dark:text-gray-400">
+              {text[language].generating}
+            </p>
+          </div>
+        )}
+
+        {/* Error State */}
+        {error && (
+          <div className="max-w-3xl mx-auto mt-8 p-6 bg-red-50 border-l-4 border-red-500 dark:bg-red-900/20 dark:border-red-600">
+            <p className="text-red-800 dark:text-red-200">
+              <strong>{text[language].error}</strong> {error}
+            </p>
+          </div>
+        )}
+
+        {/* Recipe View */}
+        {recipe && !loading && (
+          <div className="mt-12" ref={recipeRef}>
+            <RecipeView recipe={recipe} isMock={isMock} language={language} />
+          </div>
+        )}
+      </div>
+    </MotionContainer>
   );
 }
