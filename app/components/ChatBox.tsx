@@ -49,13 +49,13 @@ export default function ChatBox({
             placeholder={text[language].placeholder}
             disabled={loading}
             dir={language === "fa" ? "rtl" : "ltr"}
-            className="w-full px-6 py-4 md:text-lg rounded-2xl border-2 border-gray-200 focus:border-blue-500 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed transition-colors dark:bg-zinc-900 dark:border-zinc-700 dark:focus:border-blue-400"
+            className="w-full px-6 py-4 md:text-lg rounded-2xl border-2 border-gray-200 focus:border-primary focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed transition-colors dark:bg-zinc-900 dark:border-zinc-700 dark:focus:border-primary-dark"
           />
         </div>
         <MotionButton
           type="submit"
           disabled={loading || !prompt.trim()}
-          className="px-8 py-4 bg-blue-600 text-white font-semibold rounded-2xl hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors dark:disabled:bg-zinc-700"
+          className="px-8 py-4 bg-primary text-white font-semibold rounded-2xl hover:bg-primary-dark disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors dark:disabled:bg-zinc-700"
         >
           {text[language].button}
         </MotionButton>
