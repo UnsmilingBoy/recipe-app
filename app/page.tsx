@@ -93,23 +93,22 @@ export default function Home() {
   return (
     <MotionContainer className="flex flex-col justify-center min-h-screen bg-linear-to-br from-blue-50 via-white to-purple-50 dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-950">
       {/* Language Toggle Button */}
-      <div className="fixed top-6 right-6 z-50">
-        <MotionButton
-          onClick={toggleLanguage}
-          className="flex items-center gap-2 p-3 bg-white dark:bg-zinc-800 rounded-full shadow-lg hover:shadow-xl transition-shadow border border-gray-200 dark:border-zinc-700"
-        >
-          <Languages />
-        </MotionButton>
-      </div>
 
-      <div className="container mx-auto py-12 px-4">
+      <MotionButton
+        onClick={toggleLanguage}
+        className="gap-2 p-3 cursor-pointer fixed top-5 right-5 bg-white dark:bg-zinc-800 rounded-full shadow-lg hover:shadow-xl transition-shadow border border-gray-200 dark:border-zinc-700"
+      >
+        <Languages />
+      </MotionButton>
+
+      <div className="container mx-auto py-12 px-2">
         {/* Header */}
         <div className="text-center mb-12 flex flex-col items-center">
           <Image src={"/cook2.png"} alt="Cooking" width={400} height={400} />
-          <h1 className="text-5xl font-bold text-gray-900 dark:text-white mb-4">
+          <h1 className="text-3xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
             {text[language].title}
           </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-400">
+          <p className="md:text-lg text-gray-600 dark:text-gray-400">
             {text[language].subtitle}
           </p>
         </div>

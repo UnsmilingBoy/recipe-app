@@ -37,7 +37,7 @@ export default function ChatBox({
   };
 
   return (
-    <div className="w-full max-w-3xl mx-auto p-6">
+    <div className="w-full max-w-3xl mx-auto p-3">
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <div className="relative">
           <MotionInput
@@ -49,7 +49,7 @@ export default function ChatBox({
             placeholder={text[language].placeholder}
             disabled={loading}
             dir={language === "fa" ? "rtl" : "ltr"}
-            className="w-full px-6 py-4 text-lg rounded-2xl border-2 border-gray-200 focus:border-blue-500 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed transition-colors dark:bg-zinc-900 dark:border-zinc-700 dark:focus:border-blue-400"
+            className="w-full px-6 py-4 md:text-lg rounded-2xl border-2 border-gray-200 focus:border-blue-500 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed transition-colors dark:bg-zinc-900 dark:border-zinc-700 dark:focus:border-blue-400"
           />
         </div>
         <MotionButton
