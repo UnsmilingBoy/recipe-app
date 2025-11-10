@@ -38,7 +38,7 @@ export default function RecipeView({
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.45 }}
-      className="w-full max-w-4xl mx-auto p-6 space-y-8"
+      className="w-full max-w-4xl mx-auto p-2 space-y-8"
       dir={language === "fa" ? "rtl" : "ltr"}
     >
       {isMock && (
