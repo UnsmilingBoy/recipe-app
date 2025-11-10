@@ -13,7 +13,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isMock, setIsMock] = useState(false);
-  const [language, setLanguage] = useState<"en" | "fa">("en");
+  const [language, setLanguage] = useState<"en" | "fa">("fa");
 
   // Apply Persian font to body when language changes
   useEffect(() => {
