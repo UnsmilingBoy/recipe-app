@@ -4,6 +4,8 @@ A beautiful Next.js app that uses **Google Gemini AI** to generate custom recipe
 
 ---
 
+Live demo: https://sham-chie.vercel.app
+
 ## ✨ Features
 
 - 💬 **Chat-based interface** – Ask for any recipe in natural language
@@ -12,7 +14,6 @@ A beautiful Next.js app that uses **Google Gemini AI** to generate custom recipe
 - 🎨 **Beautiful UI** – Modern components with Tailwind CSS
 - 🍴 **Ingredient icons** – Visual emoji icons for common ingredients
 - 📝 **Step tiles** – Clear, numbered step-by-step instructions
-- 🌙 **Dark mode support** – Automatic theme switching
 - 🎭 **Mock mode** – Works without API key for testing
 
 ---

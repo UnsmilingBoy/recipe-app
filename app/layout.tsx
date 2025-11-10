@@ -19,8 +19,8 @@ const vazirmatn = Vazirmatn({
 });
 
 export const metadata: Metadata = {
-  title: "Recipe Assistant",
-  description: "Get personalized recipes",
+  title: "Shaam Chie? - Your Recipe Assistant",
+  description: "Ai Powered Recipe Assistant to find the perfect recipe for you",
 };
 
 export default function RootLayout({
