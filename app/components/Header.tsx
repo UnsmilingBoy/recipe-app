@@ -23,7 +23,7 @@ export default function Header() {
         <div className="flex items-center">
           <MotionButton
             onClick={toggleLanguage}
-            className="gap-2 p-3 cursor-pointer bg-white/80 dark:bg-zinc-800/80 rounded-full shadow-lg hover:shadow-xl transition-all border border-gray-200/50 dark:border-zinc-700/50 backdrop-blur-sm"
+            className="p-3 cursor-pointer bg-white/80 dark:bg-zinc-800/80 rounded-full shadow-lg hover:shadow-xl transition-all border border-gray-200/50 dark:border-zinc-700/50 backdrop-blur-sm"
             title="Toggle Language"
           >
             <Languages size={20} />

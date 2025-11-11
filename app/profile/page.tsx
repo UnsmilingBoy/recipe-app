@@ -72,7 +72,7 @@ export default function ProfilePage() {
       }
 
       if (Object.keys(updates).length === 0) {
-        setError("No changes to save");
+        setError(text[language].noChangeToSave);
         return;
       }
 
@@ -127,6 +127,7 @@ export default function ProfilePage() {
       confirmDelete: "Are you absolutely sure? This action cannot be undone.",
       yesDelete: "Yes, Delete My Account",
       cancel: "Cancel",
+      noChangeToSave: "No changes to save",
     },
     fa: {
       backToHome: "→ بازگشت به صفحه اصلی",
@@ -150,6 +151,7 @@ export default function ProfilePage() {
       confirmDelete: "آیا کاملاً مطمئن هستید؟ این عمل قابل بازگشت نیست.",
       yesDelete: "بله، حساب کاربری من را حذف کن",
       cancel: "انصراف",
+      noChangeToSave: "تغییری برای ذخیره وجود ندارد",
     },
   };
 
