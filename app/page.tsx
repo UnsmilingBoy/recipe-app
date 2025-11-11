@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import ChatBox from "./components/ChatBox";
 import RecipeView from "./components/RecipeView";
 import { MotionContainer, MotionButton } from "./components/MotionPresets";
+import UserNav from "./components/UserNav";
 import { Recipe } from "@/lib/recipeSchema";
 import { Languages } from "lucide-react";
 import Image from "next/image";
@@ -100,6 +101,11 @@ export default function Home() {
       >
         <Languages />
       </MotionButton>
+
+      {/* User Login/Profile Button */}
+      <div className="fixed top-5 left-5 z-50">
+        <UserNav />
+      </div>
 
       <div className="container mx-auto py-12 px-2">
         {/* Header */}
