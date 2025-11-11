@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
         : "";
 
     // Build the system prompt that enforces JSON-only output
-    const systemPrompt = `You are a professional chef assistant. When a user asks for a full complete recipe, include as many steps as needed as long as it has to be, respond ONLY with valid JSON in this exact schema:
+    const systemPrompt = `You are a professional chef assistant. When a user asks for a full complete recipe, include as many steps as needed as long as it has to be, if the user's prompt is not a food return invalid recipe text but with the same json format, respond ONLY with valid JSON in this exact schema:
 {
   "title": "Recipe Name",
   "servings": 4,

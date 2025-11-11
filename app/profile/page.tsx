@@ -6,11 +6,12 @@ import { motion } from "framer-motion";
 import { getCurrentUser, updateUser, deleteAccount } from "@/lib/authClient";
 import { PublicUser } from "@/lib/userSchema";
 import { User, Mail, Lock, Trash2 } from "lucide-react";
+import { useLanguage } from "../context/LanguageContext";
 
 export default function ProfilePage() {
   const router = useRouter();
+  const { language } = useLanguage();
   const [user, setUser] = useState<PublicUser | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -44,8 +45,6 @@ export default function ProfilePage() {
       });
     } catch {
       router.push("/login");
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -105,19 +104,57 @@ export default function ProfilePage() {
     }
   };
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-blue-50 via-white to-purple-50 dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-950">
-        <div className="text-center">
-          <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-gray-600 dark:text-gray-400">Loading profile...</p>
-        </div>
-      </div>
-    );
-  }
+  const text = {
+    en: {
+      backToHome: "← Back to Home",
+      profileSettings: "Profile Settings",
+      manageAccount: "Manage your account information",
+      loadingProfile: "Loading profile...",
+      fullName: "Full Name",
+      emailAddress: "Email Address",
+      changePassword: "Change Password",
+      currentPassword: "Current Password",
+      currentPasswordPlaceholder: "Enter current password",
+      newPassword: "New Password",
+      newPasswordPlaceholder: "At least 8 characters",
+      keepPasswordHint: "Leave blank to keep current password",
+      saving: "Saving...",
+      saveChanges: "Save Changes",
+      dangerZone: "Danger Zone",
+      dangerWarning:
+        "Once you delete your account, there is no going back. Please be certain.",
+      deleteAccount: "Delete Account",
+      confirmDelete: "Are you absolutely sure? This action cannot be undone.",
+      yesDelete: "Yes, Delete My Account",
+      cancel: "Cancel",
+    },
+    fa: {
+      backToHome: "→ بازگشت به صفحه اصلی",
+      profileSettings: "تنظیمات پروفایل",
+      manageAccount: "مدیریت اطلاعات حساب کاربری شما",
+      loadingProfile: "در حال بارگذاری پروفایل...",
+      fullName: "نام کامل",
+      emailAddress: "آدرس ایمیل",
+      changePassword: "تغییر رمز عبور",
+      currentPassword: "رمز عبور فعلی",
+      currentPasswordPlaceholder: "رمز عبور فعلی را وارد کنید",
+      newPassword: "رمز عبور جدید",
+      newPasswordPlaceholder: "حداقل 8 کاراکتر",
+      keepPasswordHint: "برای حفظ رمز عبور فعلی خالی بگذارید",
+      saving: "در حال ذخیره...",
+      saveChanges: "ذخیره تغییرات",
+      dangerZone: "منطقه خطرناک",
+      dangerWarning:
+        "پس از حذف حساب کاربری، امکان بازگردانی وجود ندارد. لطفاً مطمئن باشید.",
+      deleteAccount: "حذف حساب کاربری",
+      confirmDelete: "آیا کاملاً مطمئن هستید؟ این عمل قابل بازگشت نیست.",
+      yesDelete: "بله، حساب کاربری من را حذف کن",
+      cancel: "انصراف",
+    },
+  };
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-blue-50 via-white to-purple-50 dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-950 py-12 px-4">
+    <div className="min-h-screen bg-linear-to-br from-blue-50 via-white to-purple-50 dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-950 py-12 px-4 pt-20">
       <div className="max-w-2xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -128,15 +165,15 @@ export default function ProfilePage() {
           <div className="mb-8">
             <button
               onClick={() => router.push("/")}
-              className="text-primary dark:text-primary-dark hover:text-primary-dark dark:hover:text-primary mb-4 flex items-center gap-2 transition-colors"
+              className="text-primary cursor-pointer dark:text-primary-dark hover:text-primary-dark dark:hover:text-primary mb-4 flex items-center gap-2 transition-colors"
             >
-              ← Back to Home
+              {text[language].backToHome}
             </button>
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-              Profile Settings
+              {text[language].profileSettings}
             </h1>
             <p className="text-gray-600 dark:text-gray-400 mt-2">
-              Manage your account information
+              {text[language].manageAccount}
             </p>
           </div>
 
@@ -173,7 +210,7 @@ export default function ProfilePage() {
                   className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 flex items-center gap-2"
                 >
                   <User size={16} />
-                  Full Name
+                  {text[language].fullName}
                 </label>
                 <input
                   type="text"
@@ -193,7 +230,7 @@ export default function ProfilePage() {
                   className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 flex items-center gap-2"
                 >
                   <Mail size={16} />
-                  Email Address
+                  {text[language].emailAddress}
                 </label>
                 <input
                   type="email"
@@ -210,7 +247,7 @@ export default function ProfilePage() {
               <div className="border-t border-gray-200 dark:border-zinc-700 pt-6">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
                   <Lock size={18} />
-                  Change Password
+                  {text[language].changePassword}
                 </h3>
 
                 <div className="space-y-4">
@@ -219,7 +256,7 @@ export default function ProfilePage() {
                       htmlFor="currentPassword"
                       className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
                     >
-                      Current Password
+                      {text[language].currentPassword}
                     </label>
                     <input
                       type="password"
@@ -232,7 +269,7 @@ export default function ProfilePage() {
                         }))
                       }
                       className="w-full px-4 py-3 border border-gray-300 dark:border-zinc-600 dark:bg-zinc-700 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none"
-                      placeholder="Enter current password"
+                      placeholder={text[language].currentPasswordPlaceholder}
                     />
                   </div>
 
@@ -241,7 +278,7 @@ export default function ProfilePage() {
                       htmlFor="newPassword"
                       className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
                     >
-                      New Password
+                      {text[language].newPassword}
                     </label>
                     <input
                       type="password"
@@ -255,10 +292,10 @@ export default function ProfilePage() {
                       }
                       minLength={8}
                       className="w-full px-4 py-3 border border-gray-300 dark:border-zinc-600 dark:bg-zinc-700 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none"
-                      placeholder="At least 8 characters"
+                      placeholder={text[language].newPasswordPlaceholder}
                     />
                     <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                      Leave blank to keep current password
+                      {text[language].keepPasswordHint}
                     </p>
                   </div>
                 </div>
@@ -270,7 +307,7 @@ export default function ProfilePage() {
                 disabled={isSaving}
                 className="w-full bg-linear-to-r from-primary to-primary-dark text-white py-3 rounded-lg font-semibold hover:from-primary-dark hover:to-primary transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
               >
-                {isSaving ? "Saving..." : "Save Changes"}
+                {isSaving ? text[language].saving : text[language].saveChanges}
               </button>
             </form>
           </div>
@@ -279,11 +316,10 @@ export default function ProfilePage() {
           <div className="bg-white dark:bg-zinc-800 rounded-2xl shadow-xl p-8 border-2 border-red-200 dark:border-red-800">
             <h3 className="text-lg font-semibold text-red-600 dark:text-red-400 mb-2 flex items-center gap-2">
               <Trash2 size={18} />
-              Danger Zone
+              {text[language].dangerZone}
             </h3>
             <p className="text-gray-600 dark:text-gray-400 mb-4">
-              Once you delete your account, there is no going back. Please be
-              certain.
+              {text[language].dangerWarning}
             </p>
 
             {!showDeleteConfirm ? (
@@ -291,25 +327,25 @@ export default function ProfilePage() {
                 onClick={() => setShowDeleteConfirm(true)}
                 className="px-6 py-2 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 border-2 border-red-200 dark:border-red-800 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/30 transition-all font-medium"
               >
-                Delete Account
+                {text[language].deleteAccount}
               </button>
             ) : (
               <div className="space-y-3">
                 <p className="text-red-700 dark:text-red-300 font-medium">
-                  Are you absolutely sure? This action cannot be undone.
+                  {text[language].confirmDelete}
                 </p>
                 <div className="flex gap-3">
                   <button
                     onClick={handleDelete}
                     className="px-6 py-2 bg-red-600 dark:bg-red-700 text-white rounded-lg hover:bg-red-700 dark:hover:bg-red-800 transition-all font-medium"
                   >
-                    Yes, Delete My Account
+                    {text[language].yesDelete}
                   </button>
                   <button
                     onClick={() => setShowDeleteConfirm(false)}
                     className="px-6 py-2 bg-gray-100 dark:bg-zinc-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-zinc-600 transition-all font-medium"
                   >
-                    Cancel
+                    {text[language].cancel}
                   </button>
                 </div>
               </div>

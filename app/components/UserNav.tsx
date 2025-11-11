@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { getCurrentUser, logoutUser } from "@/lib/authClient";
 import { PublicUser } from "@/lib/userSchema";
 import { User, LogOut, LogIn } from "lucide-react";
@@ -9,12 +9,23 @@ import { MotionButton } from "./MotionPresets";
 
 export default function UserNav() {
   const router = useRouter();
+  const pathname = usePathname();
   const [user, setUser] = useState<PublicUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [showDropdown, setShowDropdown] = useState(false);
 
   useEffect(() => {
     loadUser();
+  }, [pathname]); // Re-check user when route changes
+
+  useEffect(() => {
+    // Listen for custom login event
+    const handleUserLogin = () => {
+      loadUser();
+    };
+
+    window.addEventListener("user-login", handleUserLogin);
+    return () => window.removeEventListener("user-login", handleUserLogin);
   }, []);
 
   const loadUser = async () => {
@@ -52,7 +63,7 @@ export default function UserNav() {
     return (
       <MotionButton
         onClick={() => router.push("/login")}
-        className="p-4 bg-linear-to-r from-primary to-primary-dark text-white rounded-full hover:from-primary-dark hover:to-primary transition-all shadow-md hover:shadow-lg"
+        className="p-4 bg-linear-to-r cursor-pointer from-primary to-primary-dark text-white rounded-full hover:from-primary-dark hover:to-primary transition-all shadow-md hover:shadow-lg"
       >
         <LogIn size={18} />
         {/* <span className="font-medium">Sign In</span> */}
@@ -64,7 +75,7 @@ export default function UserNav() {
     <div className="relative">
       <button
         onClick={() => setShowDropdown(!showDropdown)}
-        className="flex items-center gap-3 px-4 py-2 bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-lg hover:border-blue-300 dark:hover:border-primary-dark hover:shadow-md transition-all"
+        className="flex items-center gap-3 px-4 py-2 cursor-pointer bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-lg hover:border-blue-300 dark:hover:border-primary-dark hover:shadow-md transition-all"
       >
         <div className="w-8 h-8 rounded-full bg-linear-to-br from-primary to-primary-dark flex items-center justify-center text-white font-semibold">
           {user.name.charAt(0).toUpperCase()}
@@ -104,7 +115,7 @@ export default function UserNav() {
                 setShowDropdown(false);
                 router.push("/profile");
               }}
-              className="w-full px-4 py-2 text-left text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-zinc-700 flex items-center gap-2 transition-colors"
+              className="w-full px-4 py-2 cursor-pointer text-left text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-zinc-700 flex items-center gap-2 transition-colors"
             >
               <User size={16} />
               <span>Profile Settings</span>
@@ -113,7 +124,7 @@ export default function UserNav() {
             <div className="border-t border-gray-100 dark:border-zinc-700 mt-1 pt-1">
               <button
                 onClick={handleLogout}
-                className="w-full px-4 py-2 text-left text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center gap-2 transition-colors"
+                className="w-full px-4 py-2 cursor-pointer text-left text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center gap-2 transition-colors"
               >
                 <LogOut size={16} />
                 <span>Sign Out</span>

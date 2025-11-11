@@ -4,9 +4,11 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { MotionButton } from "../components/MotionPresets";
+import { useLanguage } from "../context/LanguageContext";
 
 export default function LoginPage() {
   const router = useRouter();
+  const { language } = useLanguage();
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -46,6 +48,8 @@ export default function LoginPage() {
       }
 
       // Success! Redirect to home page
+      // Dispatch custom event to refresh UserNav
+      window.dispatchEvent(new Event("user-login"));
       router.push("/");
       router.refresh();
     } catch (err) {
@@ -68,8 +72,47 @@ export default function LoginPage() {
     setFormData({ email: "", password: "", name: "" });
   };
 
+  const text = {
+    en: {
+      welcomeBack: "Welcome Back",
+      createAccount: "Create Account",
+      signInSubtitle: "Sign in to access your recipes",
+      signUpSubtitle: "Sign up to start saving recipes",
+      fullName: "Full Name",
+      emailAddress: "Email Address",
+      password: "Password",
+      passwordPlaceholder: "At least 8 characters",
+      passwordHint: "Must be at least 8 characters long",
+      signingIn: "Signing in...",
+      creatingAccount: "Creating account...",
+      signIn: "Sign In",
+      signUp: "Sign up",
+      noAccount: "Don't have an account? ",
+      hasAccount: "Already have an account? ",
+      secureAuth: "Secure authentication with encrypted passwords",
+    },
+    fa: {
+      welcomeBack: "خوش آمدید",
+      createAccount: "ایجاد حساب کاربری",
+      signInSubtitle: "وارد شوید تا به دستور پخت های خود دسترسی پیدا کنید",
+      signUpSubtitle: "ثبت نام کنید تا شروع به ذخیره دستور پخت کنید",
+      fullName: "نام کامل",
+      emailAddress: "آدرس ایمیل",
+      password: "رمز عبور",
+      passwordPlaceholder: "حداقل 8 کاراکتر",
+      passwordHint: "باید حداقل 8 کاراکتر باشد",
+      signingIn: "در حال ورود...",
+      creatingAccount: "در حال ایجاد حساب...",
+      signIn: "ورود",
+      signUp: "ثبت نام",
+      noAccount: "حساب کاربری ندارید؟ ",
+      hasAccount: "قبلاً حساب کاربری دارید؟ ",
+      secureAuth: "احراز هویت امن با رمزهای عبور رمزگذاری شده",
+    },
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-blue-50 via-white to-purple-50 dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-950 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-blue-50 via-white to-purple-50 dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-950 px-4 pt-20">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -80,12 +123,14 @@ export default function LoginPage() {
           {/* Header */}
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-              {isLogin ? "Welcome Back" : "Create Account"}
+              {isLogin
+                ? text[language].welcomeBack
+                : text[language].createAccount}
             </h1>
             <p className="text-gray-600 dark:text-gray-400">
               {isLogin
-                ? "Sign in to access your recipes"
-                : "Sign up to start saving recipes"}
+                ? text[language].signInSubtitle
+                : text[language].signUpSubtitle}
             </p>
           </div>
 
@@ -109,7 +154,7 @@ export default function LoginPage() {
                   htmlFor="name"
                   className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
                 >
-                  Full Name
+                  {text[language].fullName}
                 </label>
                 <input
                   type="text"
@@ -130,7 +175,7 @@ export default function LoginPage() {
                 htmlFor="email"
                 className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
               >
-                Email Address
+                {text[language].emailAddress}
               </label>
               <input
                 type="email"
@@ -150,7 +195,7 @@ export default function LoginPage() {
                 htmlFor="password"
                 className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
               >
-                Password
+                {text[language].password}
               </label>
               <input
                 type="password"
@@ -161,11 +206,13 @@ export default function LoginPage() {
                 required
                 minLength={8}
                 className="w-full px-4 py-3 border border-gray-300 dark:border-zinc-600 dark:bg-zinc-700 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none"
-                placeholder={isLogin ? "••••••••" : "At least 8 characters"}
+                placeholder={
+                  isLogin ? "••••••••" : text[language].passwordPlaceholder
+                }
               />
               {!isLogin && (
                 <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                  Must be at least 8 characters long
+                  {text[language].passwordHint}
                 </p>
               )}
             </div>
@@ -197,10 +244,16 @@ export default function LoginPage() {
                       d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                     />
                   </svg>
-                  {isLogin ? "Signing in..." : "Creating account..."}
+                  {isLogin
+                    ? text[language].signingIn
+                    : text[language].creatingAccount}
                 </span>
               ) : (
-                <>{isLogin ? "Sign In" : "Create Account"}</>
+                <>
+                  {isLogin
+                    ? text[language].signIn
+                    : text[language].createAccount}
+                </>
               )}
             </MotionButton>
           </form>
@@ -208,15 +261,13 @@ export default function LoginPage() {
           {/* Toggle between login and register */}
           <div className="mt-6 text-center">
             <p className="text-gray-600 dark:text-gray-400">
-              {isLogin
-                ? "Don't have an account? "
-                : "Already have an account? "}
+              {isLogin ? text[language].noAccount : text[language].hasAccount}
               <button
                 type="button"
                 onClick={toggleMode}
                 className="text-primary font-semibold hover:text-primary-dark dark:hover:text-primary-light transition-colors"
               >
-                {isLogin ? "Sign up" : "Sign in"}
+                {isLogin ? text[language].signUp : text[language].signIn}
               </button>
             </p>
           </div>
@@ -224,7 +275,7 @@ export default function LoginPage() {
 
         {/* Footer */}
         <p className="text-center text-gray-500 dark:text-gray-400 text-sm mt-6">
-          Secure authentication with encrypted passwords
+          {text[language].secureAuth}
         </p>
       </motion.div>
     </div>

@@ -3,10 +3,9 @@
 import { useState, useEffect, useRef } from "react";
 import ChatBox from "./components/ChatBox";
 import RecipeView from "./components/RecipeView";
-import { MotionContainer, MotionButton } from "./components/MotionPresets";
-import UserNav from "./components/UserNav";
+import { MotionContainer } from "./components/MotionPresets";
 import { Recipe } from "@/lib/recipeSchema";
-import { Languages } from "lucide-react";
+import { useLanguage } from "./context/LanguageContext";
 import Image from "next/image";
 
 export default function Home() {
@@ -14,16 +13,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isMock, setIsMock] = useState(false);
-  const [language, setLanguage] = useState<"en" | "fa">("fa");
-
-  // Apply Persian font to body when language changes
-  useEffect(() => {
-    if (language === "fa") {
-      document.body.classList.add("vazirmatn-font");
-    } else {
-      document.body.classList.remove("vazirmatn-font");
-    }
-  }, [language]);
+  const { language } = useLanguage();
 
   const handleRecipeRequest = async (prompt: string) => {
     setLoading(true);
@@ -53,10 +43,6 @@ export default function Home() {
     } finally {
       setLoading(false);
     }
-  };
-
-  const toggleLanguage = () => {
-    setLanguage(language === "en" ? "fa" : "en");
   };
 
   const text = {
@@ -92,21 +78,7 @@ export default function Home() {
   }, [recipe, loading]);
 
   return (
-    <MotionContainer className="flex flex-col justify-center min-h-screen bg-linear-to-br from-blue-50 via-white to-purple-50 dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-950">
-      {/* Language Toggle Button */}
-
-      <MotionButton
-        onClick={toggleLanguage}
-        className="gap-2 p-3 cursor-pointer fixed top-5 right-5 bg-white dark:bg-zinc-800 rounded-full shadow-lg hover:shadow-xl transition-shadow border border-gray-200 dark:border-zinc-700"
-      >
-        <Languages />
-      </MotionButton>
-
-      {/* User Login/Profile Button */}
-      <div className="fixed top-5 left-5 z-50">
-        <UserNav />
-      </div>
-
+    <MotionContainer className="flex flex-col justify-center min-h-screen bg-linear-to-br from-blue-50 via-white to-purple-50 dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-950 pt-20">
       <div className="container mx-auto py-12 px-2">
         {/* Header */}
         <div className="text-center mb-12 flex flex-col items-center">

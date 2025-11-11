@@ -42,7 +42,7 @@ export const MotionButton = React.forwardRef<
       whileHover={{ scale: 1.03 }}
       whileTap={{ scale: 0.97 }}
       transition={{ type: "tween", duration: 0.12 }}
-      className={className}
+      className={"cursor-pointer " + className}
       {...rest}
       style={{ willChange: "transform" }}
     >
