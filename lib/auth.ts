@@ -1,8 +1,7 @@
 import jwt from "jsonwebtoken";
 import { serialize, parse } from "cookie";
 
-const JWT_SECRET =
-  process.env.JWT_SECRET || "your-secret-key-change-this-in-production";
+const JWT_SECRET = process.env.JWT_SECRET!;
 const TOKEN_NAME = "auth_token";
 
 export interface JWTPayload {

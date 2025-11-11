@@ -265,7 +265,7 @@ export default function LoginPage() {
               <button
                 type="button"
                 onClick={toggleMode}
-                className="text-primary font-semibold hover:text-primary-dark dark:hover:text-primary-light transition-colors"
+                className="text-primary font-semibold cursor-pointer hover:text-primary-dark dark:hover:text-primary-light transition-colors"
               >
                 {isLogin ? text[language].signUp : text[language].signIn}
               </button>
