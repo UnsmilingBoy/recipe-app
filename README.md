@@ -24,10 +24,12 @@ Live demo: https://sham-chie.vercel.app
 ### User Management Features ✨ NEW
 
 - 🔐 **Secure Authentication** – JWT-based auth with HTTP-only cookies
-- 👤 **User Profiles** – Create and manage your account
+- � **Google OAuth** – Sign in with your Google account
+- �👤 **User Profiles** – Create and manage your account
 - 🔑 **Password Management** – Secure password hashing with bcrypt
 - 📝 **Profile Updates** – Change name, email, and password
 - 🗑️ **Account Deletion** – Full control over your data
+- 🔗 **Account Linking** – Link existing accounts with Google
 - 🌙 **Dark Mode** – Complete theme support across all pages
 - 🎨 **Consistent Design** – Blue/purple gradient theme throughout
 
@@ -62,11 +64,26 @@ Live demo: https://sham-chie.vercel.app
    # Authentication
    JWT_SECRET=your_secure_random_secret_key_here
    NODE_ENV=development
+
+   # Google OAuth (Optional - for Sign in with Google)
+   GOOGLE_CLIENT_ID=your-google-client-id.apps.googleusercontent.com
+   GOOGLE_CLIENT_SECRET=your-google-client-secret
+   NEXT_PUBLIC_BASE_URL=http://localhost:3000
    ```
 
    > **Note**: If you don't have a Gemini API key, the app will run in **mock mode** for recipes.
+   > Google OAuth is optional - users can still sign up with email/password.
 
-3. **Set up the database**:
+3. **Set up Google OAuth** (Optional):
+
+   To enable "Sign in with Google":
+
+   - Follow the detailed guide in `docs/GOOGLE_OAUTH_SETUP.md`
+   - Create OAuth credentials in Google Cloud Console
+   - Add credentials to your `.env.local`
+   - Run the database migration: `psql $DATABASE_URL < migrations/add_google_oauth.sql`
+
+4. **Set up the database**:
 
    See detailed guide in `docs/SUPABASE_SETUP.md` or follow the quick steps:
 
@@ -78,13 +95,13 @@ Live demo: https://sham-chie.vercel.app
      node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
      ```
 
-4. **Run the development server**:
+5. **Run the development server**:
 
    ```bash
    npm run dev
    ```
 
-5. **Open in browser**:
+6. **Open in browser**:
    Navigate to [http://localhost:3000](http://localhost:3000)
 
 ---

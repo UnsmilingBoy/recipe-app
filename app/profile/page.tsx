@@ -3,7 +3,12 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { getCurrentUser, updateUser, deleteAccount } from "@/lib/authClient";
+import {
+  getCurrentUser,
+  updateUser,
+  deleteAccount,
+  logoutUser,
+} from "@/lib/authClient";
 import { PublicUser } from "@/lib/userSchema";
 import { User, Mail, Lock, Trash2 } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
@@ -101,6 +106,16 @@ export default function ProfilePage() {
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to delete account");
       setShowDeleteConfirm(false);
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await logoutUser();
+      router.push("/login");
+      router.refresh();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to sign out");
     }
   };
 
@@ -312,6 +327,15 @@ export default function ProfilePage() {
                 {isSaving ? text[language].saving : text[language].saveChanges}
               </button>
             </form>
+            {/* Sign Out Button */}
+            <div className="mt-4">
+              <button
+                onClick={handleLogout}
+                className="w-full mt-2 border border-gray-200 dark:border-zinc-700 text-gray-700 dark:text-gray-300 py-3 rounded-lg hover:bg-gray-50 dark:hover:bg-zinc-700 transition-all"
+              >
+                Sign Out
+              </button>
+            </div>
           </div>
 
           {/* Danger Zone */}

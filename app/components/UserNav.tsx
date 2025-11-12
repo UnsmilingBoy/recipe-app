@@ -71,10 +71,23 @@ export default function UserNav() {
     );
   }
 
+  const handleProfileButton = () => {
+    // On small screens (Tailwind 'sm' breakpoint = 640px) navigate directly to /profile
+    if (
+      typeof window !== "undefined" &&
+      window.matchMedia("(max-width: 640px)").matches
+    ) {
+      router.push("/profile");
+      return;
+    }
+
+    setShowDropdown((s) => !s);
+  };
+
   return (
     <div className="relative">
       <button
-        onClick={() => setShowDropdown(!showDropdown)}
+        onClick={handleProfileButton}
         className="flex items-center gap-3 px-4 py-2 cursor-pointer bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-lg hover:border-blue-300 dark:hover:border-primary-dark hover:shadow-md transition-all"
       >
         <div className="w-8 h-8 rounded-full bg-linear-to-br from-primary to-primary-dark flex items-center justify-center text-white font-semibold">
