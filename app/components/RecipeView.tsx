@@ -1,7 +1,14 @@
+"use client";
+
 import { Recipe } from "@/lib/recipeSchema";
 import StepTile from "./StepTile";
 import IngredientIcon from "./IngredientIcon";
 import { motion } from "framer-motion";
+import { BookmarkIcon, BookmarkCheck } from "lucide-react";
+import { useSavedRecipes } from "../context/SavedRecipesContext";
+import { useState, useEffect } from "react";
+import { getCurrentUser } from "@/lib/authClient";
+import { useRouter } from "next/navigation";
 
 interface RecipeViewProps {
   recipe: Recipe;
@@ -14,6 +21,55 @@ export default function RecipeView({
   isMock,
   language,
 }: RecipeViewProps) {
+  const router = useRouter();
+  const { saveRecipe, unsaveRecipe, isRecipeSaved } = useSavedRecipes();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showSaveToast, setShowSaveToast] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveError, setError] = useState<string | null>(null);
+  const isSaved = isRecipeSaved(recipe.title);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const user = await getCurrentUser();
+        setIsLoggedIn(!!user);
+      } catch {
+        setIsLoggedIn(false);
+      }
+    };
+    checkAuth();
+  }, []);
+
+  const handleSaveToggle = async () => {
+    if (!isLoggedIn) {
+      router.push("/login");
+      return;
+    }
+
+    setIsSaving(true);
+    setError(null);
+
+    try {
+      if (isSaved) {
+        await unsaveRecipe(recipe.title);
+        setShowSaveToast(false);
+      } else {
+        await saveRecipe(recipe);
+        setShowSaveToast(true);
+        setTimeout(() => setShowSaveToast(false), 3000);
+      }
+    } catch (error) {
+      console.error("Error toggling save:", error);
+      setError(
+        error instanceof Error ? error.message : "Failed to save recipe"
+      );
+      setTimeout(() => setError(null), 3000);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
   const text = {
     en: {
       mockMode: "Mock Mode:",
@@ -22,6 +78,10 @@ export default function RecipeView({
       ingredients: "Ingredients",
       steps: "Steps",
       chefNotes: "Chef's Notes",
+      saveRecipe: "Save Recipe",
+      saved: "Saved",
+      recipeSaved: "Recipe saved successfully!",
+      saveFailed: "Failed to save recipe",
     },
     fa: {
       mockMode: "حالت نمایشی:",
@@ -30,6 +90,10 @@ export default function RecipeView({
       ingredients: "مواد لازم",
       steps: "مراحل تهیه",
       chefNotes: "نکات سرآشپز",
+      saveRecipe: "ذخیره دستور",
+      saved: "ذخیره شده",
+      recipeSaved: "دستور با موفقیت ذخیره شد!",
+      saveFailed: "ذخیره‌سازی ناموفق بود",
     },
   };
 
@@ -52,9 +116,61 @@ export default function RecipeView({
 
       {/* Header */}
       <div className="space-y-4">
-        <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
-          {recipe.title}
-        </h1>
+        <div className="flex items-start justify-between gap-4">
+          <h1 className="text-4xl font-bold text-gray-900 dark:text-white flex-1">
+            {recipe.title}
+          </h1>
+          <button
+            onClick={handleSaveToggle}
+            disabled={isSaving}
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all ${
+              isSaved
+                ? "bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 border-2 border-green-500"
+                : "bg-primary/10 hover:bg-primary/20 text-primary border-2 border-primary/30 hover:border-primary"
+            } ${isSaving ? "opacity-50 cursor-not-allowed" : ""}`}
+            title={isSaved ? text[language].saved : text[language].saveRecipe}
+          >
+            {isSaved ? (
+              <>
+                <BookmarkCheck size={20} />
+                <span className="hidden sm:inline">{text[language].saved}</span>
+              </>
+            ) : (
+              <>
+                <BookmarkIcon size={20} />
+                <span className="hidden sm:inline">
+                  {text[language].saveRecipe}
+                </span>
+              </>
+            )}
+          </button>
+        </div>
+
+        {/* Toast notification */}
+        {showSaveToast && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            className="fixed top-20 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 flex items-center gap-2"
+          >
+            <BookmarkCheck size={20} />
+            <span>{text[language].recipeSaved}</span>
+          </motion.div>
+        )}
+
+        {/* Error notification */}
+        {saveError && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            className="fixed top-20 right-4 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 flex items-center gap-2"
+          >
+            <span>{saveError}</span>
+          </motion.div>
+        )}
+
         <div className="flex flex-wrap gap-4 text-sm text-gray-600 dark:text-gray-400">
           {recipe.servings && (
             <span className="flex items-center gap-1">

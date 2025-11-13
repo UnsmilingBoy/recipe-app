@@ -1,15 +1,11 @@
 "use client";
 
-import { Languages } from "lucide-react";
-import { useLanguage } from "../context/LanguageContext";
 import UserNav from "./UserNav";
-import { MotionButton } from "./MotionPresets";
+import MenuButton from "./MenuButton";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function Header() {
-  const { toggleLanguage } = useLanguage();
-
   return (
     <header
       dir="ltr"
@@ -24,26 +20,20 @@ export default function Header() {
         {/* Center: Logo or Site Name */}
         <Link
           href="/"
-          className="flex items-center justify-center fixed inset-0"
+          className="flex items-center justify-center fixed inset-0 pointer-events-none"
         >
           <Image
             src="/logo2.png"
             alt="RecipeApp Logo"
             width={180}
             height={180}
-            className="w-40 md:w-[180px]"
+            className="w-40 md:w-[180px] pointer-events-auto"
           />
         </Link>
 
-        {/* Right: Language Toggle */}
-        <div className="flex items-center">
-          <MotionButton
-            onClick={toggleLanguage}
-            className="p-3 cursor-pointer bg-white/80 dark:bg-zinc-800/80 rounded-full shadow-lg hover:shadow-xl transition-all border border-gray-200/50 dark:border-zinc-700/50 backdrop-blur-sm"
-            title="Toggle Language"
-          >
-            <Languages size={20} />
-          </MotionButton>
+        {/* Right: Menu Button */}
+        <div className="flex items-center z-50">
+          <MenuButton />
         </div>
       </div>
     </header>

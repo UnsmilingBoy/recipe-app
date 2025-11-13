@@ -140,7 +140,7 @@ export default function LoginPage() {
         <div className="bg-white dark:bg-zinc-800 rounded-2xl shadow-xl p-8">
           {/* Header */}
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2">
               {isLogin
                 ? text[language].welcomeBack
                 : text[language].createAccount}

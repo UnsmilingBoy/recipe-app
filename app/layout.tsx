@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Vazirmatn } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "./context/LanguageContext";
+import { SavedRecipesProvider } from "./context/SavedRecipesContext";
 import Header from "./components/Header";
 
 const geistSans = Geist({
@@ -36,8 +37,10 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${vazirmatn.variable} antialiased`}
       >
         <LanguageProvider>
-          <Header />
-          {children}
+          <SavedRecipesProvider>
+            <Header />
+            {children}
+          </SavedRecipesProvider>
         </LanguageProvider>
       </body>
     </html>
