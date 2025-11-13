@@ -4,6 +4,8 @@ import { Languages } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
 import UserNav from "./UserNav";
 import { MotionButton } from "./MotionPresets";
+import Image from "next/image";
+import Link from "next/link";
 
 export default function Header() {
   const { toggleLanguage } = useLanguage();
@@ -15,9 +17,23 @@ export default function Header() {
     >
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
         {/* Left: User Nav */}
-        <div className="flex items-center">
+        <div className="flex items-center z-50">
           <UserNav />
         </div>
+
+        {/* Center: Logo or Site Name */}
+        <Link
+          href="/"
+          className="flex items-center justify-center fixed inset-0"
+        >
+          <Image
+            src="/logo2.png"
+            alt="RecipeApp Logo"
+            width={180}
+            height={180}
+            className="w-40 md:w-[180px]"
+          />
+        </Link>
 
         {/* Right: Language Toggle */}
         <div className="flex items-center">

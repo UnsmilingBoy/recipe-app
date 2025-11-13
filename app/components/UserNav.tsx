@@ -88,12 +88,12 @@ export default function UserNav() {
     <div className="relative">
       <button
         onClick={handleProfileButton}
-        className="flex items-center gap-3 px-4 py-2 cursor-pointer bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-lg hover:border-blue-300 dark:hover:border-primary-dark hover:shadow-md transition-all"
+        className="flex items-center gap-3 md:px-4 md:py-2 cursor-pointer md:bg-white md:dark:bg-zinc-800 md:border border-gray-200 dark:border-zinc-700 rounded-lg hover:border-blue-300 dark:hover:border-primary-dark hover:shadow-md transition-all"
       >
-        <div className="w-8 h-8 rounded-full bg-linear-to-br from-primary to-primary-dark flex items-center justify-center text-white font-semibold">
+        <div className="w-11 h-11 md:w-8 md:h-8 rounded-full bg-linear-to-br from-primary to-primary-dark flex items-center justify-center text-white font-semibold">
           {user.name.charAt(0).toUpperCase()}
         </div>
-        <div className="text-left hidden sm:block">
+        <div className="text-left hidden md:block">
           <p className="text-sm font-medium text-gray-900 dark:text-white">
             {user.name}
           </p>
