@@ -160,7 +160,7 @@ export default function MenuButton() {
               <button
                 key={index}
                 onClick={item.onClick}
-                className={`w-full px-4 py-3 text-${
+                className={`w-full cursor-pointer px-4 py-3 text-${
                   language === "en" ? "left" : "right"
                 } text-sm hover:bg-gray-50 dark:hover:bg-zinc-700 flex items-center gap-3 transition-colors ${
                   language === "en" ? "" : "flex-row-reverse"
@@ -173,7 +173,7 @@ export default function MenuButton() {
                 <span className="text-gray-600 dark:text-gray-400">
                   {item.icon}
                 </span>
-                <span className="flex-1">{item.label}</span>
+                <span className="">{item.label}</span>
                 {item.requiresAuth && !isLoggedIn && (
                   <span className="text-xs text-blue-600 dark:text-blue-400 font-medium">
                     {language === "en" ? "Login required" : "نیاز به ورود"}

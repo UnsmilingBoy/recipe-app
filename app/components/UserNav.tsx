@@ -6,8 +6,10 @@ import { getCurrentUser, logoutUser } from "@/lib/authClient";
 import { PublicUser } from "@/lib/userSchema";
 import { User, LogOut, LogIn } from "lucide-react";
 import { MotionButton } from "./MotionPresets";
+import { useLanguage } from "../context/LanguageContext";
 
 export default function UserNav() {
+  const { language } = useLanguage();
   const router = useRouter();
   const pathname = usePathname();
   const [user, setUser] = useState<PublicUser | null>(null);
@@ -66,7 +68,9 @@ export default function UserNav() {
         className="p-3 cursor-pointer bg-white/80 dark:bg-zinc-800/80 rounded-full shadow-lg hover:shadow-xl transition-all border border-gray-200/50 dark:border-zinc-700/50 backdrop-blur-sm"
       >
         <LogIn size={18} />
-        {/* <span className="font-medium">Sign In</span> */}
+        <span className="hidden sm:inline ml-2 font-medium">
+          {language === "en" ? "Sign In" : "ورود"}
+        </span>
       </MotionButton>
     );
   }
@@ -131,7 +135,9 @@ export default function UserNav() {
               className="w-full px-4 py-2 cursor-pointer text-left text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-zinc-700 flex items-center gap-2 transition-colors"
             >
               <User size={16} />
-              <span>Profile Settings</span>
+              <span>
+                {language === "en" ? "Profile Settings" : "تنظیمات پروفایل"}
+              </span>
             </button>
 
             <div className="border-t border-gray-100 dark:border-zinc-700 mt-1 pt-1">
@@ -140,7 +146,7 @@ export default function UserNav() {
                 className="w-full px-4 py-2 cursor-pointer text-left text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center gap-2 transition-colors"
               >
                 <LogOut size={16} />
-                <span>Sign Out</span>
+                <span>{language === "en" ? "Sign Out" : "خروج"}</span>
               </button>
             </div>
           </div>

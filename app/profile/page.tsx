@@ -143,6 +143,7 @@ export default function ProfilePage() {
       yesDelete: "Yes, Delete My Account",
       cancel: "Cancel",
       noChangeToSave: "No changes to save",
+      signOut: "Sign Out",
     },
     fa: {
       backToHome: "→ بازگشت به صفحه اصلی",
@@ -167,6 +168,7 @@ export default function ProfilePage() {
       yesDelete: "بله، حساب کاربری من را حذف کن",
       cancel: "انصراف",
       noChangeToSave: "تغییری برای ذخیره وجود ندارد",
+      signOut: "خروج از حساب کاربری",
     },
   };
 
@@ -331,9 +333,9 @@ export default function ProfilePage() {
             <div className="mt-4">
               <button
                 onClick={handleLogout}
-                className="w-full mt-2 border border-gray-200 dark:border-zinc-700 text-gray-700 dark:text-gray-300 py-3 rounded-lg hover:bg-gray-50 dark:hover:bg-zinc-700 transition-all"
+                className="w-full mt-2 border border-red-500 text-gray-700 dark:text-gray-300 py-3 rounded-lg hover:bg-gray-50 dark:hover:bg-zinc-700 transition-all"
               >
-                Sign Out
+                {text[language].signOut}
               </button>
             </div>
           </div>

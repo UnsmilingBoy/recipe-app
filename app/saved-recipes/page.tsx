@@ -147,7 +147,7 @@ export default function SavedRecipesPage() {
                     <button
                       onClick={(e) => handleDeleteRecipe(e, recipe.title)}
                       disabled={deletingRecipe === recipe.title}
-                      className={`p-2 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors ${
+                      className={`p-2 hover:bg-red-50 cursor-pointer dark:hover:bg-red-900/20 rounded-lg transition-colors ${
                         deletingRecipe === recipe.title
                           ? "opacity-50 cursor-not-allowed"
                           : ""
@@ -209,7 +209,7 @@ export default function SavedRecipesPage() {
 
                   <button
                     onClick={() => setSelectedRecipe(index)}
-                    className="w-full py-2 bg-primary hover:bg-primary/90 text-white rounded-lg font-medium transition-colors"
+                    className="w-full py-2 bg-primary cursor-pointer hover:bg-primary/90 text-white rounded-lg font-medium transition-colors"
                   >
                     {language === "en" ? "View Recipe" : "مشاهده دستور"}
                   </button>
