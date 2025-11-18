@@ -65,7 +65,7 @@ export default function UserNav() {
     return (
       <MotionButton
         onClick={() => router.push("/login")}
-        className="p-3 cursor-pointer bg-white/80 dark:bg-zinc-800/80 rounded-full shadow-lg hover:shadow-xl transition-all border border-gray-200/50 dark:border-zinc-700/50 backdrop-blur-sm"
+        className="p-3 flex flex-row items-center cursor-pointer bg-white/80 dark:bg-zinc-800/80 rounded-full shadow-lg hover:shadow-xl transition-all border border-gray-200/50 dark:border-zinc-700/50 backdrop-blur-sm"
       >
         <LogIn size={18} />
         <span className="hidden sm:inline ml-2 font-medium">
