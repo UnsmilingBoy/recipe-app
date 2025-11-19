@@ -190,7 +190,7 @@ export default function Home() {
         {suggestions && !suggestionsLoading && (
           <div className="max-w-3xl mx-auto mt-12" ref={suggestionsRef}>
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
                 {text[language].selectSuggestion}
               </h2>
               <button
@@ -231,7 +231,7 @@ export default function Home() {
                     <div className="w-10 h-10 rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center text-amber-600 dark:text-amber-400 font-bold group-hover:scale-110 transition-transform">
                       {index + 1}
                     </div>
-                    <span className="text-lg font-medium text-gray-900 dark:text-white">
+                    <span className="text-lg text-right font-medium text-gray-900 dark:text-white">
                       {suggestion}
                     </span>
                   </div>
