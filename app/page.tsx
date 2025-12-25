@@ -28,7 +28,7 @@ export default function Home() {
     setSuggestions(null);
 
     try {
-      const response = await fetch("/api/recipe", {
+      const response = await fetch("/api/recipe-groq", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

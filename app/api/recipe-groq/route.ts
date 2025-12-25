@@ -80,7 +80,7 @@ ${languageInstruction}
 
     // Call Groq API with chat completion
     const completion = await client.chat.completions.create({
-      model: "qwen/qwen3-32b",
+      model: "moonshotai/kimi-k2-instruct-0905",
       messages: [
         {
           role: "system",
