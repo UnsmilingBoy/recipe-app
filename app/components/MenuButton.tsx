@@ -134,7 +134,7 @@ export default function MenuButton() {
     >
       <MotionButton
         onClick={handleClick}
-        className="p-3 cursor-pointer bg-white/80 dark:bg-zinc-800/80 rounded-full shadow-lg hover:shadow-xl transition-all border border-gray-200/50 dark:border-zinc-700/50 backdrop-blur-sm flex items-center gap-2"
+        className="p-3 cursor-pointer bg-white/80 dark:bg-zinc-800/80 rounded-full shadow-lg hover:shadow-xl transition-colors border border-gray-200/50 dark:border-zinc-700/50 backdrop-blur-sm flex items-center gap-2"
         title={language === "en" ? "Menu" : "منو"}
       >
         <Menu size={18} />

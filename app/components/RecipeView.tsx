@@ -3,6 +3,7 @@
 import { Recipe } from "@/lib/recipeSchema";
 import StepTile from "./StepTile";
 import IngredientIcon from "./IngredientIcon";
+import StepChatModal from "./StepChatModal";
 import { motion } from "framer-motion";
 import { BookmarkIcon, BookmarkCheck } from "lucide-react";
 import { useSavedRecipes } from "../context/SavedRecipesContext";
@@ -27,6 +28,10 @@ export default function RecipeView({
   const [showSaveToast, setShowSaveToast] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [saveError, setError] = useState<string | null>(null);
+  const [selectedStep, setSelectedStep] = useState<
+    (typeof recipe.steps)[0] | null
+  >(null);
+  const [isChatOpen, setIsChatOpen] = useState(false);
   const isSaved = isRecipeSaved(recipe.title);
 
   useEffect(() => {
@@ -68,6 +73,16 @@ export default function RecipeView({
     } finally {
       setIsSaving(false);
     }
+  };
+
+  const handleOpenStepChat = (step: (typeof recipe.steps)[0]) => {
+    setSelectedStep(step);
+    setIsChatOpen(true);
+  };
+
+  const handleCloseStepChat = () => {
+    setIsChatOpen(false);
+    setSelectedStep(null);
   };
 
   const text = {
@@ -231,7 +246,12 @@ export default function RecipeView({
         </h2>
         <div className="space-y-4">
           {recipe.steps.map((step) => (
-            <StepTile key={step.id} step={step} />
+            <StepTile
+              key={step.id}
+              step={step}
+              onAskQuestion={() => handleOpenStepChat(step)}
+              language={language}
+            />
           ))}
         </div>
       </div>
@@ -244,6 +264,16 @@ export default function RecipeView({
           </h3>
           <p className="text-amber-800 dark:text-amber-200">{recipe.notes}</p>
         </div>
+      )}
+
+      {/* Step Chat Modal */}
+      {selectedStep && (
+        <StepChatModal
+          step={selectedStep}
+          isOpen={isChatOpen}
+          onClose={handleCloseStepChat}
+          language={language}
+        />
       )}
     </motion.div>
   );

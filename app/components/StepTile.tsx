@@ -1,6 +1,7 @@
 "use client";
 
 import { MotionCard } from "./MotionPresets";
+import { MessageCircleQuestion } from "lucide-react";
 
 interface Step {
   id: number;
@@ -12,11 +13,22 @@ interface Step {
 
 interface StepTileProps {
   step: Step;
+  onAskQuestion?: () => void;
+  language: "en" | "fa";
 }
 
-export default function StepTile({ step }: StepTileProps) {
+export default function StepTile({
+  step,
+  onAskQuestion,
+  language,
+}: StepTileProps) {
+  const text = {
+    en: { askQuestion: "Ask about this step" },
+    fa: { askQuestion: "سوال درباره این مرحله" },
+  };
+
   return (
-    <MotionCard className="flex gap-4 p-6 bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow dark:bg-zinc-800 dark:border-zinc-700">
+    <MotionCard className="flex gap-4 p-6 bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow dark:bg-zinc-800 dark:border-zinc-700 relative group">
       {/* Step Number Circle */}
       <div className="shrink-0">
         <div className="w-12 h-12 flex items-center justify-center bg-blue-600 text-white font-bold text-xl rounded-full">
@@ -56,6 +68,18 @@ export default function StepTile({ step }: StepTileProps) {
           )}
         </div>
       </div>
+
+      {/* Ask Question Button */}
+      {onAskQuestion && (
+        <button
+          onClick={onAskQuestion}
+          className="absolute top-4 left-4 p-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
+          title={text[language].askQuestion}
+          aria-label={text[language].askQuestion}
+        >
+          <MessageCircleQuestion size={20} />
+        </button>
+      )}
     </MotionCard>
   );
 }

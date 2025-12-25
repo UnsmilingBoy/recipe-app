@@ -65,7 +65,7 @@ export default function UserNav() {
     return (
       <MotionButton
         onClick={() => router.push("/login")}
-        className="p-3 flex flex-row items-center cursor-pointer bg-white/80 dark:bg-zinc-800/80 rounded-full shadow-lg hover:shadow-xl transition-all border border-gray-200/50 dark:border-zinc-700/50 backdrop-blur-sm"
+        className="p-3 flex flex-row items-center cursor-pointer bg-white/80 dark:bg-zinc-800/80 rounded-full shadow-lg hover:shadow-xl transition-colors border border-gray-200/50 dark:border-zinc-700/50 backdrop-blur-sm"
       >
         <LogIn size={18} />
         <span className="hidden sm:inline ml-2 font-medium">
@@ -92,7 +92,7 @@ export default function UserNav() {
     <div className="relative">
       <button
         onClick={handleProfileButton}
-        className="flex items-center gap-3 md:px-4 md:py-2 cursor-pointer md:bg-white md:dark:bg-zinc-800 md:border border-gray-200 dark:border-zinc-700 rounded-lg hover:border-blue-300 dark:hover:border-primary-dark hover:shadow-md transition-all"
+        className="flex items-center gap-3 md:px-4 md:py-2 cursor-pointer md:bg-white md:dark:bg-zinc-800 md:border border-gray-200 dark:border-zinc-700 rounded-lg hover:border-blue-300 dark:hover:border-primary-dark hover:shadow-md transition-colors"
       >
         <div className="w-11 h-11 md:w-8 md:h-8 rounded-full bg-linear-to-br from-primary to-primary-dark flex items-center justify-center text-white font-semibold">
           {user.name.charAt(0).toUpperCase()}
