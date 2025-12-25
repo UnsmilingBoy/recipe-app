@@ -42,15 +42,15 @@ export default function AboutPage() {
             </div>
             <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
               {language === "en"
-                ? "RecipeApp is an AI-powered recipe generator that helps you discover and create delicious recipes based on the ingredients you have. Built with Next.js 15, and integrated with Google's Gemini AI, this application provides a seamless and modern cooking experience."
-                : "RecipeApp یک برنامه تولید دستور پخت مبتنی بر هوش مصنوعی است که به شما کمک می‌کند دستورهای خوشمزه را بر اساس مواد موجود کشف و ایجاد کنید. این برنامه با Next.js 15 و Gemini AI گوگل ساخته شده است."}
+                ? "ShamChie is an AI-powered recipe generator that helps you discover and create delicious recipes based on the ingredients you have. Built with Next.js 15, and integrated with Google's Gemini AI, this application provides a seamless and modern cooking experience."
+                : "شام چیه یک برنامه تولید دستور پخت مبتنی بر هوش مصنوعی است که به شما کمک می‌کند دستورهای خوشمزه را بر اساس مواد موجود کشف و ایجاد کنید. این برنامه با Next.js 15 و Gemini AI گوگل ساخته شده است."}
             </p>
             <div className="space-y-2 text-gray-700 dark:text-gray-300">
               <p className="flex items-center gap-2">
                 <span className="text-primary">✓</span>
                 {language === "en"
                   ? "AI-powered recipe generation with Google Gemini"
-                  : "تولید دستور پخت با هوش مصنوعی Gemini گوگل"}
+                  : "تولید دستور پخت با هوش مصنوعی"}
               </p>
               <p className="flex items-center gap-2">
                 <span className="text-primary">✓</span>

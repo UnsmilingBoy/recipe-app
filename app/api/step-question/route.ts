@@ -59,7 +59,7 @@ ${languageInstruction}`;
     });
 
     const completion = await client.chat.completions.create({
-      model: "llama-3.3-70b-versatile",
+      model: "moonshotai/kimi-k2-instruct-0905",
       messages: [
         {
           role: "system",
