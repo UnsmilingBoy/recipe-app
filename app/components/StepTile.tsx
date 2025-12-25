@@ -1,7 +1,8 @@
 "use client";
 
 import { MotionCard } from "./MotionPresets";
-import { MessageCircleQuestion } from "lucide-react";
+import { MessageCircleQuestion, Sparkles } from "lucide-react";
+import { motion } from "framer-motion";
 
 interface Step {
   id: number;
@@ -71,14 +72,55 @@ export default function StepTile({
 
       {/* Ask Question Button */}
       {onAskQuestion && (
-        <button
+        <motion.button
           onClick={onAskQuestion}
-          className="absolute top-4 left-4 p-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
+          className="absolute top-4 left-4 p-2 bg-gradient-to-br from-blue-500 via-blue-600 to-purple-600 hover:from-blue-600 hover:via-purple-600 hover:to-pink-600 text-white rounded-xl opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-colors duration-300 shadow-lg hover:shadow-2xl hover:shadow-blue-500/50 dark:shadow-blue-500/30"
           title={text[language].askQuestion}
           aria-label={text[language].askQuestion}
+          whileHover={{
+            scale: 1.1,
+            rotate: [0, -5, 5, -5, 0],
+            transition: { duration: 0.4 },
+          }}
+          whileTap={{ scale: 0.95 }}
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{
+            type: "spring",
+            stiffness: 260,
+            damping: 20,
+            delay: 0.1,
+          }}
         >
-          <MessageCircleQuestion size={20} />
-        </button>
+          <motion.div
+            animate={{
+              rotate: [0, 5, -5, 0],
+            }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              repeatType: "reverse",
+            }}
+          >
+            <MessageCircleQuestion size={20} className="drop-shadow-lg" />
+          </motion.div>
+
+          {/* Sparkle effect */}
+          <motion.div
+            className="absolute -top-1 -right-1"
+            animate={{
+              scale: [1, 1.2, 1],
+              opacity: [0.7, 1, 0.7],
+            }}
+            transition={{
+              duration: 1.5,
+              repeat: Infinity,
+              repeatType: "reverse",
+            }}
+          >
+            <Sparkles size={12} className="text-yellow-300" />
+          </motion.div>
+        </motion.button>
       )}
     </MotionCard>
   );
